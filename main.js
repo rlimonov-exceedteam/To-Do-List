@@ -6,17 +6,17 @@ let tasksArray = [];
 let task = '';
 let paragraph = '';
 let storageCounter = JSON.parse(localStorage.getItem('counter'));
-let counter = storageCounter === null ? 0 : +storageCounter.substring(0, storageCounter.indexOf('div'));
+let counter = !storageCounter ? 0 : +storageCounter.substring(0, storageCounter.indexOf('div'));
 
 const initialPrint = (tasks, finished) => {
   for (let key in tasks) {
-    if (tasksArray.indexOf(tasks[key]) === -1) {
+    if (tasksArray.indexOf(tasks[key]) < 0) {
       tasksArray.unshift(tasks[key]);
     }
   }
 
   for (let key in finished) {
-    if (finishedArray.indexOf(finished[key]) === -1) {
+    if (finishedArray.indexOf(finished[key]) < 0) {
       finishedArray.unshift(finished[key]);
     }
   }
@@ -26,7 +26,7 @@ const initialPrint = (tasks, finished) => {
 }
 
 const printTask = () => {
-  if(!(task === '')) {
+  if(task) {
     paragraph = `<div class="task" id="${++counter}div">
                   <textarea disabled class="task-text ${counter}div">${task}</textarea>
                   <div class="buttons ${counter}div">
@@ -43,12 +43,12 @@ const printTask = () => {
     localStorage.setItem('counter', JSON.stringify(`${counter}div`));
 
     for (let key in tasks) {
-      if (tasksArray.indexOf(tasks[key]) === -1) {
+      if (tasksArray.indexOf(tasks[key]) < 0) {
         tasksArray.unshift(tasks[key]);
       }
     }
 
-    updateLeftside()
+    updateLeftside();
     document.getElementById('add-task').value = null;
     task = '';
   }
@@ -59,18 +59,18 @@ const enterData = (event) => {
 }
 
 const updateLeftside = () => {
-  let str = tasksArray.join('');
+  const str = tasksArray.join('');
   document.getElementById('to-do-root').innerHTML = str;
 }
 
 const updateRightside = () => {
-  let str = finishedArray.join('');
+  const str = finishedArray.join('');
   document.getElementsByClassName('done-root')[0].innerHTML = str;
 }
 
 const finish = (event) => {
-  let id = event.target.classList[1];
-  let task = document.getElementsByClassName(id)[0].value;
+  const id = event.target.classList[1];
+  const task = document.getElementsByClassName(id)[0].value;
   let elem = document.getElementById(id);
 
   delete tasks[id];
@@ -83,20 +83,19 @@ const finish = (event) => {
   updateLeftside();
 
   elem = `<div class="task" id="${id}">
-                    <textarea disabled class="task-text ${id}">${task}</textarea>
-                    <div class="buttons ${id}">
-                      <button class="finish ${id}" onclick="restore(event)">in To-Do</button>
-                      <button class="edit ${id} non-edit" onclick="edit(event)">edit</button>
-                      <button class="delete ${id}" onclick="remove(event)">delete</button>
-                      <button class="return ${id}" style="display: none;">return</button>
-                    </div>
-                  </div>`;
+            <textarea disabled class="task-text ${id}">${task}</textarea>
+            <div class="buttons ${id}">
+              <button class="finish ${id}" onclick="restore(event)">in To-Do</button>
+              <button class="edit ${id} non-edit" onclick="edit(event)">edit</button>
+              <button class="delete ${id}" onclick="remove(event)">delete</button>
+              <button class="return ${id}" style="display: none;">return</button>
+            </div>
+          </div>`;
 
   finished[id] = elem;
-  console.log(finished);
 
   for (let key in finished) {
-    if (finishedArray.indexOf(finished[key]) === -1) {
+    if (finishedArray.indexOf(finished[key]) < 0) {
       finishedArray.unshift(finished[key]);
     }
   }
@@ -108,8 +107,8 @@ const finish = (event) => {
 }
 
 const restore = (event) => {
-  let id = event.target.classList[1];
-  let task = document.getElementsByClassName(id)[0].value;
+  const id = event.target.classList[1];
+  const task = document.getElementsByClassName(id)[0].value;
   let elem = document.getElementById(id);
 
   delete finished[id];
@@ -133,7 +132,7 @@ const restore = (event) => {
   tasks[id] = elem;
 
   for (let key in tasks) {
-    if (tasksArray.indexOf(tasks[key]) === -1) {
+    if (tasksArray.indexOf(tasks[key]) < 0) {
       tasksArray.unshift(tasks[key]);
     }
   }
@@ -145,39 +144,37 @@ const restore = (event) => {
 }
 
 const edit = (event) => {
-  if (!(event.target.classList[2] === 'non-edit')) {
-    let id = event.target.classList[1];
-    let elem = document.getElementsByClassName(id)[0];
-    let ret = document.getElementsByClassName(id)[5];
-    let editBtn = document.getElementsByClassName(id)[3];
-    let val = elem.value;
+  if (event.target.classList[2] !== 'non-edit') {
+    const id = event.target.classList[1];
+    const [elem, ret, editBtn] = [document.getElementsByClassName(id)[0], 
+                                  document.getElementsByClassName(id)[5],
+                                  document.getElementsByClassName(id)[3]]
+    const val = elem.value;
     
     elem.disabled = false;
     ret.style.display = "block";
 
-    ret.onclick = function(event) {
-      let id2 = event.target.classList[1];
-      let elem2 = document.getElementsByClassName(id)[0];
+    ret.onclick = (event) => {
+      const id2 = event.target.classList[1];
+      const elem2 = document.getElementsByClassName(id)[0];
 
       elem2.value = val;
-      elem2.disabled = true;
-      ret.style.display = "none";
     };
 
-    editBtn.onclick = function(el) {
+    editBtn.onclick = (el) => {
         elem.disabled = true;
         ret.style.display = "none";
         
         if (id in tasks) {
-          let paragraph = `<div class="task" id="${id}">
-                            <textarea disabled class="task-text ${id}">${elem.value}</textarea>
-                            <div class="buttons ${id}">
-                              <button class="finish ${id}" onclick="finish(event)">finished</button>
-                              <button class="edit ${id}" onclick="edit(event)">edit</button>
-                              <button class="delete ${id}" onclick="remove(event)">delete</button>
-                              <button class="return ${id}" style="display: none;">return</button>
-                            </div>
-                          </div>`
+          const paragraph = `<div class="task" id="${id}">
+                              <textarea disabled class="task-text ${id}">${elem.value}</textarea>
+                              <div class="buttons ${id}">
+                                <button class="finish ${id}" onclick="finish(event)">finished</button>
+                                <button class="edit ${id}" onclick="edit(event)">edit</button>
+                                <button class="delete ${id}" onclick="remove(event)">delete</button>
+                                <button class="return ${id}" style="display: none;">return</button>
+                              </div>
+                            </div>`
           tasks[id] = paragraph;
 
           localStorage.setItem('tasks', JSON.stringify(tasks));
@@ -186,23 +183,23 @@ const edit = (event) => {
           tasksArray = [];
 
           for (let key in tasks) {
-            if (tasksArray.indexOf(tasks[key]) === -1) {
+            if (tasksArray.indexOf(tasks[key]) < 0) {
               tasksArray.unshift(tasks[key]);
             }
           }
 
-          updateLeftside()
+          updateLeftside();
 
         } else if (id in finished) {
-          let paragraph = `<div class="task" id="${id}">
-                            <textarea disabled class="task-text ${id}">${elem.value}</textarea>
-                            <div class="buttons ${id}">
-                              <button class="finish ${id}" onclick="finish(event)">in To-Do</button>
-                              <button class="edit ${id}" onclick="edit(event)">edit</button>
-                              <button class="delete ${id}" onclick="remove(event)">delete</button>
-                              <button class="return ${id}" style="display: none;">return</button>
-                            </div>
-                          </div>`
+          const paragraph = `<div class="task" id="${id}">
+                              <textarea disabled class="task-text ${id}">${elem.value}</textarea>
+                              <div class="buttons ${id}">
+                                <button class="finish ${id}" onclick="finish(event)">in To-Do</button>
+                                <button class="edit ${id}" onclick="edit(event)">edit</button>
+                                <button class="delete ${id}" onclick="remove(event)">delete</button>
+                                <button class="return ${id}" style="display: none;">return</button>
+                              </div>
+                            </div>`
         finished[id] = paragraph;
 
         localStorage.setItem('tasks', JSON.stringify(tasks));
@@ -211,7 +208,7 @@ const edit = (event) => {
         finishedArray = [];
                 
         for (let key in finished) {
-          if (finishedArray.indexOf(finished[key]) === -1) {
+          if (finishedArray.indexOf(finished[key]) < 0) {
             finishedArray.unshift(finished[key]);
           }
         }
@@ -251,7 +248,7 @@ const remove = (event) => {
 ///////////////////////////////////////////////////////////////////////////////////////
 
 
-window.onload = function() {
+window.onload = () => {
   const input = document.getElementById('add-task');
   const button = document.getElementById('btn');
   const root = document.getElementById('root');
