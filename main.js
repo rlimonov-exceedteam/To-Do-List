@@ -26,12 +26,12 @@ const getFromServer = async (tasks, finished, tasksArray, finishedArray) => {
   const response = await fetch('http://localhost:8000/allTasks',{
     method: 'GET'
   });
-  let result = await response.json();
+  const result = await response.json();
 
   for (let el of result.data) {
     if (!el.isCheck) {
       tasks[el.id] = el.text;
-    } else if (el.isCheck) {
+    } else {
       finished[el.id] = el.text;
     }
   }
@@ -60,17 +60,18 @@ const getFromServer = async (tasks, finished, tasksArray, finishedArray) => {
 
 const postOnServer = async (text, id, isCheck) => {
   const response = await fetch('http://localhost:8000/createTask',{
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8', 
-        'Access-Control-Allow-Origin': '*'
-      },
-      body: JSON.stringify({
-        text: text,
-        id: id,
-        isCheck: isCheck
-      })
-    });
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8', 
+      'Access-Control-Allow-Origin': '*'
+    },
+    body: JSON.stringify({
+      text,
+      id,
+      isCheck
+    })
+  });
+  const result = await response.json();
 }
 
 const patchOnServer = async (text, id, isCheck) => {
@@ -81,17 +82,19 @@ const patchOnServer = async (text, id, isCheck) => {
         'Access-Control-Allow-Origin': '*'
       },
       body: JSON.stringify({
-        text: text,
-        id: id,
-        isCheck: isCheck
+        text,
+        id,
+        isCheck
       })
   });
+  const result = await response.json();
 }
 
 const deleteFromServer = async (id) => {
   const response = await fetch(`http://localhost:8000/deleteTask?id=${id}`,{
     method: 'DELETE',
   });
+  const result = await response.json();
 }
 
 const initialPrint = (tasks, finished) => {
@@ -275,7 +278,7 @@ const edit = (event) => {
 
         updateFinishedSide();
       }
-    };
+    }
   }
 }
 
