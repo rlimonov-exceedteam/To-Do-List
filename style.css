@@ -22,7 +22,7 @@ section {
 
 .head {
   margin: 10px;
-  display:flex;
+  display: flex;
   flex-direction: column;
   justify-content: center;
 }
@@ -33,7 +33,7 @@ section {
   height: 80px;
   font-size: 16px;
   resize: none;
-  text-overflow:ellipsis;
+  text-overflow: ellipsis;
   border-radius: 0%;
 }
 
@@ -45,7 +45,7 @@ textarea:focus {
 }
 
 .container {
-  display:flex;
+  display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
@@ -62,8 +62,8 @@ textarea:focus {
   margin-bottom: 5px;
   width: 100%;
   min-height: 100px;
-  height:fit-content;
-  background-color:white;
+  height: fit-content;
+  background-color: white;
   border-radius: 5px;
   outline: 10px solid white;
 }
@@ -73,7 +73,7 @@ textarea:focus {
   width: 100%;
   min-height: 100px;
   height: fit-content;
-  background-color:white;
+  background-color: white;
   border-radius: 5px;
   outline: 10px solid white;
 }
@@ -95,7 +95,7 @@ textarea:focus {
   width: 75%;
   margin: 0;
   padding: 3px;
-  background-color:white;
+  background-color: white;
   color: black;
 }
 
@@ -105,7 +105,7 @@ textarea:focus {
 }
 
 .buttons {
-  display:flex;
+  display: flex;
   flex-direction: column;
 }
 
