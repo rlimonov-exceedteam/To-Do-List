@@ -69,7 +69,7 @@ const updateRightside = () => {
 }
 
 const finish = (event) => {
-  const [, id] = [event.target.classList];
+  const [, id] = event.target.classList;
   const task = document.getElementsByClassName(id)[0].value;
   let elem = document.getElementById(id);
 
@@ -107,7 +107,7 @@ const finish = (event) => {
 }
 
 const restore = (event) => {
-  const [, id] = [event.target.classList];
+  const [, id] = event.target.classList;
   const task = document.getElementsByClassName(id)[0].value;
   let elem = document.getElementById(id);
 
@@ -145,7 +145,7 @@ const restore = (event) => {
 
 const edit = (event) => {
   if (event.target.classList[2] !== 'non-edit') {
-    const [, id] = [event.target.classList];
+    const [, id] = event.target.classList;
     const elem = document.getElementsByClassName(id)[0];
     const ret = document.getElementsByClassName(id)[5];
     const editBtn = document.getElementsByClassName(id)[3];
@@ -155,7 +155,7 @@ const edit = (event) => {
     ret.style.display = "block";
 
     ret.onclick = (event) => {
-      const [, id2] = [event.target.classList];
+      const [, id2] = event.target.classList;
       const elem2 = document.getElementsByClassName(id)[0];
 
       elem2.value = val;
@@ -221,7 +221,7 @@ const edit = (event) => {
 }
 
 const remove = (event) => {
-  const [, id] = [event.target.classList];
+  const [, id] = event.target.classList;
 
   delete tasks[id];
   tasksArray = [];
