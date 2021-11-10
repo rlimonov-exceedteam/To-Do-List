@@ -146,9 +146,7 @@ const restore = (event) => {
 const edit = (event) => {
   if (event.target.classList[2] !== 'non-edit') {
     const [, id] = event.target.classList;
-    const [elem, ] = document.getElementsByClassName(id);
-    const [,,,,,ret] = document.getElementsByClassName(id);
-    const [,,,editBtn] = document.getElementsByClassName(id);
+    const [elem ,,, ret,, editBtn] = document.getElementsByClassName(id);
     const val = elem.value;
     
     elem.disabled = false;
