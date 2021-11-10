@@ -146,9 +146,9 @@ const restore = (event) => {
 const edit = (event) => {
   if (event.target.classList[2] !== 'non-edit') {
     const [, id] = event.target.classList;
-    const elem = document.getElementsByClassName(id)[0];
-    const ret = document.getElementsByClassName(id)[5];
-    const editBtn = document.getElementsByClassName(id)[3];
+    const [elem, ] = document.getElementsByClassName(id);
+    const [,,,,,ret] = document.getElementsByClassName(id);
+    const [,,,editBtn] = document.getElementsByClassName(id);
     const val = elem.value;
     
     elem.disabled = false;
@@ -156,7 +156,7 @@ const edit = (event) => {
 
     ret.onclick = (event) => {
       const [, id2] = event.target.classList;
-      const elem2 = document.getElementsByClassName(id)[0];
+      const [elem2, ] = document.getElementsByClassName(id);
 
       elem2.value = val;
     };
