@@ -8,19 +8,26 @@ module.exports.getAllTasks = (req, res) => {
 
 module.exports.createNewTask = (req, res) => {
   const task = new Task(req.body);
-  task.save();
+  task.save().then(result => {
+    res.send('succesfully created');
+  }).catch(err => {
+    console.log(err);
+  });
 }
 
 module.exports.changeTaskInfo = (req, res) => {
-  Task.findOneAndUpdate({id: req.body.id}, {text: req.body.text, isCheck: req.body.isCheck},
-  {upsert: true}, result => {
-    res.send(req.body.id);
+  Task.findOneAndUpdate({id: req.body.id}, {text, isCheck} = req.body,
+  {upsert: true}).then(result => {
+    res.send('succesfully updated');
+  }).catch(err => {
+    console.log(err);
   });
 }
 
 module.exports.deleteTask = (req, res) => {
-  console.log(req);
-  Task.deleteOne(req.query).then(result => {
-    res.send('deleted');
+  Task.deleteOne({id: req.query.id}).then(result => {
+    res.send('succesfully deleted');
+  }).catch(err => {
+    console.log(err);
   });
 }
