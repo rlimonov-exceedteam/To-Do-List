@@ -26,7 +26,14 @@ const getFromServer = async (tasks, finished, tasksArray, finishedArray) => {
   const response = await fetch('http://localhost:8000/allTasks', {
     method: 'GET',
   });
-  const result = await response.json();
+  
+  let result;
+
+  if (response.ok) {
+    result = await response.json();
+  } else {
+    alert(`Ошибка HTTP: ${response.status}`);
+  }
 
   for (let el of result.data) {
     !el.isCheck ? tasks[el.id] = el.text : finished[el.id] = el.text;
@@ -69,8 +76,14 @@ const postOnServer = async (text, id, isCheck) => {
       isCheck
     })
   });
-  const result = await response.json();
-  return result;
+
+  if (response.ok) {
+    const result = await response.json();
+    result.isCheck ? finished[result.id] = result.text : tasks[result.id] = result.text;
+
+  } else {
+    alert(`Error HTTP: ${response.status}`);
+  }
 }
 
 const patchOnServer = async (text, id, isCheck) => {
@@ -86,16 +99,29 @@ const patchOnServer = async (text, id, isCheck) => {
       isCheck
     })
   });
-  const result = await response.json();
-  return result;
+
+  if (response.ok) {
+    const result = await response.json();
+    result.isCheck ? finished[result.id] = result.text : tasks[result.id] = result.text;
+
+  } else {
+    alert(`Ошибка HTTP: ${response.status}`);
+  }
 }
 
 const deleteFromServer = async (id) => {
   const response = await fetch(`http://localhost:8000/deleteTask?id=${id}`,{
     method: 'DELETE',
   });
-  const result = await response.json();
-  return result;
+  
+  if (response.ok) {
+    const result = await response.json();
+
+    delete tasks[result.id];
+    delete finished[result.id];
+  } else {
+    alert(`Ошибка HTTP: ${response.status}`);
+  }
 }
 
 const initialPrint = (tasks, finished) => {
@@ -320,6 +346,3 @@ window.onload = async () => {
   button.addEventListener('click', printTask);
   initialPrint(tasks, finished);
 }
-
-
-
