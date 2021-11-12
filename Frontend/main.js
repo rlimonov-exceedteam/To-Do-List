@@ -29,11 +29,7 @@ const getFromServer = async (tasks, finished, tasksArray, finishedArray) => {
   const result = await response.json();
 
   for (let el of result.data) {
-    if (!el.isCheck) {
-      tasks[el.id] = el.text;
-    } else {
-      finished[el.id] = el.text;
-    }
+    !el.isCheck ? tasks[el.id] = el.text : finished[el.id] = el.text;
   }
 
   for (let key in tasks) {
@@ -56,6 +52,8 @@ const getFromServer = async (tasks, finished, tasksArray, finishedArray) => {
 
   counter = serverCounter ?
   +serverCounter.substring(0, serverCounter.indexOf('div')) : 0;
+
+  return result;
 }
 
 const postOnServer = async (text, id, isCheck) => {
@@ -72,6 +70,7 @@ const postOnServer = async (text, id, isCheck) => {
     })
   });
   const result = await response.json();
+  return result;
 }
 
 const patchOnServer = async (text, id, isCheck) => {
@@ -88,6 +87,7 @@ const patchOnServer = async (text, id, isCheck) => {
     })
   });
   const result = await response.json();
+  return result;
 }
 
 const deleteFromServer = async (id) => {
@@ -95,6 +95,7 @@ const deleteFromServer = async (id) => {
     method: 'DELETE',
   });
   const result = await response.json();
+  return result;
 }
 
 const initialPrint = (tasks, finished) => {
@@ -172,7 +173,6 @@ const finish = async (event) => {
   }
 
   updateFinishedSide();
-  console.log(paragraph, id, true);
   patchOnServer(paragraph, id, true);
 }
 
