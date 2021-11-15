@@ -31,8 +31,8 @@ module.exports.createNewTask = (req, res, next) => {
 module.exports.changeTaskInfo = (req, res, next) => {
   const body = req.body;
 
-  if (body.hasOwnProperty('id') && (body.hasOwnProperty('text') || body.hasOwnProperty('isCheck'))) {
-    Task.updateOne({id: req.body.id}, {text, isCheck} = req.body).then(result => {
+  if (body.hasOwnProperty('_id') && (body.hasOwnProperty('text') || body.hasOwnProperty('isCheck'))) {
+    Task.updateOne({_id: req.body._id}, req.body).then(result => {
       res.send(result);
     });
   } else {
@@ -41,10 +41,10 @@ module.exports.changeTaskInfo = (req, res, next) => {
 }
 
 module.exports.deleteTask = (req, res, next) => {
-  if (!req.query.id) {
+  if (!req.query._id) {
     return res.status(422).send('Error! Params not correct');
   } else {
-    Task.deleteOne({id: req.query.id}).then(result => {
+    Task.deleteOne({_id: req.query._id}).then(result => {
       res.send('succesfully deleted');
     });
   }
