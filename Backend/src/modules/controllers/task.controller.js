@@ -31,9 +31,8 @@ module.exports.createNewTask = (req, res, next) => {
 module.exports.changeTaskInfo = (req, res, next) => {
   const body = req.body;
 
-  if (body.hasOwnProperty('id')) {
-    Task.findOneAndUpdate({id: req.body.id}, {text, isCheck} = req.body, 
-    {upsert: true}).then(result => {
+  if (body.hasOwnProperty('id') && (body.hasOwnProperty('text') || body.hasOwnProperty('isCheck'))) {
+    Task.updateOne({id: req.body.id}, {text, isCheck} = req.body).then(result => {
       res.send(result);
     });
   } else {
