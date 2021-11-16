@@ -38,12 +38,12 @@ const getFromServer = async (tasks, finished, tasksArray, finishedArray) => {
 
   for (let el of result.data) {
     paragraph = `<div class="task" id="${el._id}">
-                  <textarea disabled class="task-text ${el._id}">${el.text}</textarea>
-                  <div class="buttons ${el._id}">
-                    <button class="finish ${el._id}" onclick="finish(event)">${el.isCheck ? 'in To-Do' : 'finished'}</button>
-                    <button class="edit ${el._id}" onclick="edit(event)">edit</button>
-                    <button class="delete ${el._id}" onclick="remove(event)">delete</button>
-                    <button class="return ${el._id}" style="display: none;">return</button>
+                  <textarea disabled class="task-text">${el.text}</textarea>
+                  <div class="buttons">
+                    <button class="finish" onclick="finish(event)">${el.isCheck ? 'in To-Do' : 'finished'}</button>
+                    <button class="edit" onclick="edit(event)">edit</button>
+                    <button class="delete" onclick="remove(event)">delete</button>
+                    <button class="return" style="display: none;">return</button>
                   </div>
                 </div>`;
 
@@ -84,12 +84,12 @@ const postOnServer = async () => {
 
   if (response.ok) {
     paragraph = `<div class="task" id="${result._id}">
-                  <textarea disabled class="task-text ${result._id}">${task}</textarea>
-                  <div class="buttons ${result._id}">
-                    <button class="finish ${result._id}" onclick="finish(event)">finished</button>
-                    <button class="edit ${result._id}" onclick="edit(event)">edit</button>
-                    <button class="delete ${result._id}" onclick="remove(event)">delete</button>
-                    <button class="return ${result._id}" style="display: none;">return</button>
+                  <textarea disabled class="task-text">${task}</textarea>
+                  <div class="buttons">
+                    <button class="finish" onclick="finish(event)">finished</button>
+                    <button class="edit" onclick="edit(event)">edit</button>
+                    <button class="delete" onclick="remove(event)">delete</button>
+                    <button class="return" style="display: none;">return</button>
                   </div>
                 </div>`;
     tasksArray = [];
@@ -101,10 +101,9 @@ const postOnServer = async () => {
       }
     }
 
-  updateToDoside();
-  document.getElementById('add-task').value = null;
-  task = '';
-
+    updateToDoside();
+    document.getElementById('add-task').value = null;
+    task = '';
   } else {
     alert(`Error HTTP: ${response.status}`);
   }
@@ -133,12 +132,12 @@ const patchOnServer = async (isCheck, elem, _id, action) => {
       delete tasks[_id];
 
       finished[_id] = `<div class="task" id="${_id}">
-                        <textarea disabled class="task-text ${_id}">${elem.value}</textarea>
-                        <div class="buttons ${_id}">
-                          <button class="finish ${_id}" onclick="finish(event)">in To-Do</button>
-                          <button class="edit ${_id} ${isEditable ? 'non-edit' : ''}" onclick="edit(event)">edit</button>
-                          <button class="delete ${_id}" onclick="remove(event)">delete</button>
-                          <button class="return ${_id}" style="display: none;">return</button>
+                        <textarea disabled class="task-text">${elem.value}</textarea>
+                        <div class="buttons">
+                          <button class="finish" onclick="finish(event)">in To-Do</button>
+                          <button class="edit ${isEditable ? 'non-edit' : ''}" onclick="edit(event)">edit</button>
+                          <button class="delete" onclick="remove(event)">delete</button>
+                          <button class="return" style="display: none;">return</button>
                         </div>
                       </div>`
       delete tasks[_id];
@@ -165,12 +164,12 @@ const patchOnServer = async (isCheck, elem, _id, action) => {
       delete finished[_id];
 
       tasks[_id] = `<div class="task" id="${_id}">
-                        <textarea disabled class="task-text ${_id}">${elem.value}</textarea>
-                        <div class="buttons ${_id}">
-                          <button class="finish ${_id}" onclick="finish(event)">finished</button>
-                          <button class="edit ${_id} non-edit" onclick="edit(event)">edit</button>
-                          <button class="delete ${_id}" onclick="remove(event)">delete</button>
-                          <button class="return ${_id}" style="display: none;">return</button>
+                        <textarea disabled class="task-text">${elem.value}</textarea>
+                        <div class="buttons">
+                          <button class="finish" onclick="finish(event)">finished</button>
+                          <button class="edit non-edit" onclick="edit(event)">edit</button>
+                          <button class="delete" onclick="remove(event)">delete</button>
+                          <button class="return" style="display: none;">return</button>
                         </div>
                       </div>`;
       delete finished[_id];
@@ -197,12 +196,12 @@ const patchOnServer = async (isCheck, elem, _id, action) => {
 
     if (_id in tasks) {     
       const paragraph = `<div class="task" id="${_id}">
-                          <textarea disabled class="task-text ${_id}">${elem.value}</textarea>
-                          <div class="buttons ${_id}">
-                            <button class="finish ${_id}" onclick="finish(event)">finished</button>
-                            <button class="edit ${_id}" onclick="edit(event)">edit</button>
-                            <button class="delete ${_id}" onclick="remove(event)">delete</button>
-                            <button class="return ${_id}" style="display: none;">return</button>
+                          <textarea disabled class="task-text">${elem.value}</textarea>
+                          <div class="buttons">
+                            <button class="finish" onclick="finish(event)">finished</button>
+                            <button class="edit" onclick="edit(event)">edit</button>
+                            <button class="delete" onclick="remove(event)">delete</button>
+                            <button class="return" style="display: none;">return</button>
                           </div>
                         </div>`;
       tasks[_id] = paragraph;
@@ -217,12 +216,12 @@ const patchOnServer = async (isCheck, elem, _id, action) => {
 
     } else if (_id in finished) {      
       const paragraph = `<div class="task" id="${_id}">
-                        <textarea disabled class="task-text ${_id}">${elem.value}</textarea>
-                        <div class="buttons ${_id}">
-                          <button class="finish ${_id}" onclick="finish(event)">in To-Do</button>
-                          <button class="edit ${_id}" onclick="edit(event)">edit</button>
-                          <button class="delete ${_id}" onclick="remove(event)">delete</button>
-                          <button class="return ${_id}" style="display: none;">return</button>
+                        <textarea disabled class="task-text">${elem.value}</textarea>
+                        <div class="buttons">
+                          <button class="finish" onclick="finish(event)">in To-Do</button>
+                          <button class="edit" onclick="edit(event)">edit</button>
+                          <button class="delete" onclick="remove(event)">delete</button>
+                          <button class="return" style="display: none;">return</button>
                         </div>
                       </div>`;
       finished[_id] = paragraph;
@@ -274,40 +273,42 @@ const initialPrint = (tasks, finished) => {
 }
 
 const finish = async (event) => {
-  const [, id] = event.target.classList;
-  const text = document.getElementsByClassName(id)[0].value;
-  const elem = document.getElementsByClassName(id)[0];
-  const isCheck = Object.keys(tasks).includes(id) ? false : true;
-  patchOnServer(!isCheck, elem, id, 'finish');
+  const id = event.target.parentElement.parentElement.id;
+  const div = document.getElementById(id);
+  const textarea = div.children[0];
+  const text = textarea.value;
+  const isCheck = Object.keys(tasks).includes(id;
+  patchOnServer(!isCheck, textarea, id, 'finish');
 }
 
 const edit = (event) => {
-  if (event.target.classList[2] !== 'non-edit') {
-    const [, id] = event.target.classList;
-    const [elem, ] = document.getElementsByClassName(id);
-    const [,,,,,ret] = document.getElementsByClassName(id);
-    const [,,,editBtn] = document.getElementsByClassName(id);
-    const val = elem.value;
+  if (event.target.classList[1] !== 'non-edit') {
+    const id = event.target.parentElement.parentElement.id;
+    const div = document.getElementById(id);
+    const textarea = div.children[0];
+    const ret = div.children[1].children[3];
+    const editBtn = div.children[1].children[1];
+    const val = textarea.value;
     
-    elem.disabled = false;
+    textarea.disabled = false;
     ret.style.display = "block";
 
     ret.onclick = (event) => {
-      const [, id2] = event.target.classList;
-      const [paragraph2, ] = document.getElementsByClassName(id);
-      paragraph2.value = val;
+      const id2 = event.target.parentElement.parentElement.id;
+      const textarea2 = document.getElementById(id).children[0];
+      textarea2.value = val;
     };
 
     editBtn.onclick = async (el) => {
       ret.style.display = "none";
-      const isCheck = Object.keys(tasks).includes(id) ? false : true;
-      patchOnServer(isCheck, elem, id);
+      const isCheck = Object.keys(tasks).includes(id);
+      patchOnServer(isCheck, textarea, id);
     }
   }
 }
 
 const remove = async (event) => {
-  const [, id] = event.target.classList;
+  const id = event.target.parentElement.parentElement.id;
 
   delete tasks[id];
   tasksArray = [];
